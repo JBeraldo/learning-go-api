@@ -1,0 +1,20 @@
+services:
+  db:
+    container_name: postgres
+    image: postgres:18-alpine
+    restart: unless-stopped
+    volumes:
+      - "database_data:/var/lib/postgresql/data/"
+    environment:
+      POSTGRES_USER: ${DB_USER} # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: ${DB_PASSWORD} # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: ${DB_NAME} # The PostgreSQL default database (automatically created at first launch)
+    ports:
+      - "5432:5432"
+    networks:
+      - go-api-network
+networks:
+  go-api-network:
+    driver: bridge
+volumes:
+  database_data:
